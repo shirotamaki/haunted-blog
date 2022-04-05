@@ -50,7 +50,12 @@ class BlogsController < ApplicationController
   end
 
   def blog_params
-    params.require(:blog).permit(:title, :content, :secret, :random_eyecatch)
+    blog_params = params.require(:blog).permit(:title, :content, :secret, :random_eyecatch)
+    if current_user.premium?
+      blog_params
+    else
+      blog_params.except(:random_eyecatch)
+    end
   end
 
   def set_editable_blog
