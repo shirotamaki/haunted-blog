@@ -5,7 +5,7 @@ class BlogsController < ApplicationController
 
   before_action :set_blog, only: %i[show]
 
-  before_action :empower_user_change, only: %i[edit update destroy]
+  before_action :set_authors_blog, only: %i[edit update destroy]
 
   def index
     @blogs = Blog.search(params[:term]).published.default_order
@@ -59,7 +59,7 @@ class BlogsController < ApplicationController
     end
   end
 
-  def empower_user_change
+  def set_authors_blog
     @blog = current_user.blogs.find(params[:id])
   end
 end
