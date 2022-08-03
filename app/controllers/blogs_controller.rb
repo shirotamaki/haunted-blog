@@ -12,7 +12,7 @@ class BlogsController < ApplicationController
   end
 
   def show
-    raise ActiveRecord::RecordNotFound if @blog.secret? && !@blog.owned_by?(current_user)
+    @blog = Blog.authorize(current_user).find(params[:id])
   end
 
   def new
