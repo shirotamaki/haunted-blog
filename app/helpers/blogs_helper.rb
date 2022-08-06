@@ -2,6 +2,6 @@
 
 module BlogsHelper
   def format_content(blog)
-    simple_format(h(blog.content), {}, sanitize: false, wrapper_tag: 'div')
+    simple_format(h(blog.content), {}, wrapper_tag: 'div')
   end
 end
