@@ -12,7 +12,7 @@ class BlogsController < ApplicationController
   end
 
   def show
-    @blog = Blog.authorize(current_user).find(params[:id])
+    @blog = Blog.authorized_for(current_user).find(params[:id])
   end
 
   def new

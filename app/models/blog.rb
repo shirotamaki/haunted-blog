@@ -16,7 +16,7 @@ class Blog < ApplicationRecord
 
   scope :default_order, -> { order(id: :desc) }
 
-  scope :authorize, lambda { |user|
+  scope :authorized_for, lambda { |user|
     where(user: user)
       .or(published)
   }
