@@ -3,8 +3,7 @@
 class BlogsController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show]
 
-  before_action :set_blog, only: %i[show]
-  before_action :set_editable_blog, only: %i[edit update destroy]
+  before_action :set_blog, only: %i[show edit update destroy]
 
   def index
     @blogs = Blog.search(params[:term]).published.default_order
@@ -46,19 +45,9 @@ class BlogsController < ApplicationController
 
   def set_blog
     @blog = Blog.find(params[:id])
-    raise ActiveRecord::RecordNotFound if !@blog.owned_by?(current_user) && @blog.secret?
   end
 
   def blog_params
-    blog_params = params.require(:blog).permit(:title, :content, :secret, :random_eyecatch)
-    if current_user.premium?
-      blog_params
-    else
-      blog_params.except(:random_eyecatch)
-    end
-  end
-
-  def set_editable_blog
-    @blog = current_user.blogs.find(params[:id])
+    params.require(:blog).permit(:title, :content, :secret, :random_eyecatch)
   end
 end
